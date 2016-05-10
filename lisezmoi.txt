@@ -1,0 +1,23 @@
+
+Voici les versions TO8 et MO6 du célèbre Nyan Cat
+   (http://en.wikipedia.org/wiki/Nyan_Cat).
+
+L'animation originale est de prguitarman,
+   je l'ai refaite pour qu'elle soit
+   compatible avec la résolution du TO8.
+
+La musique est de daniwell,
+   je l'ai réduite pour qu'elle soit
+   jouable en boucle depuis la RAM du TO8.
+
+Le code ASM et C (bmp, snd6bit) est de moi,
+   à l'exception de la routine de
+   commutation de page vidéo.
+
+L'outil sapfs provient du SDK de Gilles
+   (http://www.alternative-system.com/),
+   j'ai modifié la fonction suivante car
+   "int errno" pose problème à GCC 4.4.1 :
+   static void PrintErrorMessage(int errnb
+
+OlivierP.

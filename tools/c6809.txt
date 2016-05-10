@@ -1,0 +1,83 @@
+       ____    ____    ____    ____    ____
+      / __ \  / __ \  / __ \  / __ \  / __ \
+     / / /_/ / /_/_/ / /_/ / / / / / / /_/ /
+    / / __  / __ \  / __  / / / / / _\__  /
+   / /_/ / / /_/ / / /_/ / / /_/ / / / / /
+   \____/  \____/  \____/  \____/  \____/
+            Compilateur Assembleur 6809 pour Thomson
+
+'c6809' est un compilateur 6809 Assembler-like pour ordinateurs
+Thomson. Il utilise des fichiers au format texte.
+
+Les options a la ligne de commande sont les suivantes :
+
+  -h  aide du programme
+  -o  option(s) d'assemblage 
+          NO  Compilation sans création de fichier binaire
+          OP  Repérage d'optimisation possible
+          SS  Affichage en lignes séparées (sans effet)
+          WE  Attente à la première erreur (sans effet)
+          WL  Affichage des lignes
+          WS  Affichage de la liste des symboles
+      les parametres d'option (tous desactives par defaut) doivent
+      etre separes par des '/'
+  -b  type de la sortie (binaire non lineaire par defaut)
+      l  binaire lineaire
+      h  binaire hybride
+      d  donnee
+  -d  passage d'argument (<symbole>=<valeur>)
+       Ex : -dto=1
+       Le compilateur incluera le symbole 'to' de valeur 1 dans la table
+       avant la compilation du programme
+  -c  cree les fichiers ASM au format Thomson
+       Les fichiers en assembleur correspondant aux main et includes seront
+       crees dans le repertoire courant. Attention a ne pas utiliser le
+       meme nom pour deux fichiers differents, le premier enregistre sera
+       ecrase.
+  -q  notifie le depassement de 40 caracteres par ligne (300 par defaut)
+  -e  groupe les messages d'erreur du listing (ordre de ligne par defaut)
+  -s  ordre d'affichage des symboles du listing (alphabetique par defaut)
+      e  par erreur de symbole
+      t  par type de symbole
+      n  par frequence d'utilisation
+  -a  Notifie la compatibilite (assembleur virtuel par defaut)
+      a  ASSEMBLER1.0 et ASSEMBLER 2.0
+      m  MACROASSEMBLER 3.6
+  -m  + TO/TO7/MO machine de travail (TO par defaut)
+      Cette option n'a que pu d'incidence sur le fonctionnement du
+      compilateur, sauf dans le cas ou la compatibilite est suggeree.
+
+LE FICHIER DE CODES
+  A chaque compilation, un fichier traceur 'codes.lst' (listing) est genere.
+  Au debut du fichier, la liste des fichiers utilises est affichee avec leur
+  taille ASM respective.
+  Les differents marquages doivent commencer au debut d'une nouvelle
+  ligne :
+    (main) <nom_de_fichier> <commentaire>
+       Declaration d'un fichier main (obligatoire)
+    (include) <nom_de_fichier> <commentaire>
+       Declaration d'un fichier d'include
+    (info)
+       Affichage du nombre d'octets et de cycles depuis le debut du
+       source ou depuis la derniere instance du marquage 'info'.
+
+   Voir fichier 'exemple.ASS'.
+
+
+---------------------------------------------------------------
+
+Les executables pour Windows, Linux et Macintosh se trouvent dans
+leur repertoire respectif.
+
+---------------------------------------------------------------
+
+Pour compiler le programme 'c6809', renommer 'Makefile.win' ou
+'Makefile.unx' en 'Makefile selon que vous etes sous systeme
+Windows ou Unix, puis faites simplement un 'make' dans le terminal
+ou la fenetre DOS.
+
+---------------------------------------------------------------
+
+Pour toute information ou report de bug, contacter :
+fjjm-arobase-orange-point-fr
+
