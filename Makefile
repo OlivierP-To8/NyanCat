@@ -1,5 +1,6 @@
 OBJ_ASM = $(OBJ_DIR)tools/c6809.o
 OBJ_SAPFS = $(OBJ_DIR)tools/sap/libsap.o $(OBJ_DIR)tools/sap/sapfs.o
+OBJ_FDFS = $(OBJ_DIR)tools/fdfs.o
 OBJ_BMP = $(OBJ_DIR)tools/bmp.o
 OBJ_SNDTO = $(OBJ_DIR)tools/snd6bitTO.o
 OBJ_SNDMO = $(OBJ_DIR)tools/snd6bitMO.o
@@ -7,13 +8,16 @@ OBJ_K7MOFS = $(OBJ_DIR)tools/k7mofs.o
 OBJ_K52WAV = $(OBJ_DIR)tools/k52wav.o
 OBJ_WAV2K5 = $(OBJ_DIR)tools/wav2k5.o
 
-all: c6809 sapfs bmp sndTO nyancatTO8 sndMO k7mofs k52wav nyancatMO6
+all: c6809 sapfs fdfs bmp sndTO nyancatTO8 sndMO k7mofs k52wav nyancatMO6
 
 c6809: $(OBJ_ASM)
 	gcc -s -o tools/c6809 $(OBJ_ASM)
 
 sapfs: $(OBJ_SAPFS)
 	gcc -s -o tools/sapfs $(OBJ_SAPFS)
+
+fdfs: $(OBJ_FDFS)
+	gcc -s -o tools/fdfs $(OBJ_FDFS)
 
 bmp: $(OBJ_BMP) 
 	gcc -s -o tools/bmp $(OBJ_BMP)
@@ -133,6 +137,8 @@ nyancatTO8:
 	cd diskTO8; ../tools/sapfs -add ../NyanCatTO8.sap SAMPLE11.BIN
 	cd diskTO8; ../tools/sapfs -add ../NyanCatTO8.sap SAMPLE12.BIN
 
+	cd diskTO8; ../tools/fdfs -add ../NyanCatTO8.fd CATNOSND.BIN AUTO.BAT NYANCAT.BAS NYANCAT.BIN SAMPLE01.BIN SAMPLE02.BIN SAMPLE03.BIN SAMPLE04.BIN SAMPLE05.BIN SAMPLE06.BIN SAMPLE07.BIN SAMPLE08.BIN SAMPLE09.BIN SAMPLE10.BIN SAMPLE11.BIN SAMPLE12.BIN
+
 nyancatMO6:
 	cp src/NyanCatMO6NoSnd.asm NyanCatFull.asm
 	tools/bmp data/my_nyan_arc_1.bmp ARC1 >> NyanCatFull.asm
@@ -211,6 +217,8 @@ nyancatMO6:
 	cd diskMO6; ../tools/sapfs -add ../NyanCatMO6.sap SAMPLE04.BIN
 	cd diskMO6; ../tools/sapfs -add ../NyanCatMO6.sap SAMPLE05.BIN
 	cd diskMO6; ../tools/sapfs -add ../NyanCatMO6.sap NYANCAT.BIN
+
+	cd diskMO6; ../tools/fdfs -add ../NyanCatMO6.fd CATNOSND.BIN AUTO.BAT NYANCAT.BAS SAMPLE01.BIN SAMPLE02.BIN SAMPLE03.BIN SAMPLE04.BIN SAMPLE05.BIN NYANCAT.BIN
 
 	cat /dev/null > NyanCatMO6.k7
 	cd diskMO6; ../tools/k7mofs -add ../NyanCatMO6.k7 CATNOSND.BIN
