@@ -41,8 +41,12 @@ $(OBJ_DIR)%.o: %.c
 	gcc -c -W -Wall -std=c99 -o $@ $<
 
 clean:
-	rm tools/*.o
-	rm tools/sap/*.o
+	-rm tools/*.o
+	-rm tools/sap/*.o
+	-rm diskTO8/*.BIN
+	-rm diskMO6/*.BIN
+	-rm *.lst *.asm *.fd *.sap *.k7 *.wav
+	-rm tools/c6809 tools/sapfs tools/fdfs tools/bmp tools/snd6bitTO tools/snd6bitMO tools/k7mofs tools/k52wav
 
 nyancatTO8:
 	cp src/NyanCatTO8NoSnd.asm NyanCatFull.asm
@@ -230,5 +234,5 @@ nyancatMO6:
 	cd diskMO6; ../tools/k7mofs -add ../NyanCatMO6.k7 SAMPLE04.BIN
 	cd diskMO6; ../tools/k7mofs -add ../NyanCatMO6.k7 SAMPLE05.BIN
 	cd diskMO6; ../tools/k7mofs -add ../NyanCatMO6.k7 NYANCAT.BIN
-	tools/k52wav NyanCatMO6.k7
+	-tools/k52wav NyanCatMO6.k7
 
