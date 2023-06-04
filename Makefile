@@ -69,21 +69,21 @@ nyancatTO8:
 	tools/bmp data/my_nyan_star_5.bmp STAR5 >> NyanCatFull.asm
 	tools/bmp data/my_nyan_star_6.bmp STAR6 >> NyanCatFull.asm
 	tools/bmp data/my_nyan_star_7.bmp STAR7 >> NyanCatFull.asm
-	tools/c6809 NyanCatFull.asm diskTO8/CATNOSND.BIN
+	tools/c6809 -bl NyanCatFull.asm diskTO8/CATNOSND.BIN
 
 	tools/snd6bitTO "data/Nyan Cat loop TO8.snd" sample
-	tools/c6809 sample01.asm diskTO8/SAMPLE01.BIN
-	tools/c6809 sample02.asm diskTO8/SAMPLE02.BIN
-	tools/c6809 sample03.asm diskTO8/SAMPLE03.BIN
-	tools/c6809 sample04.asm diskTO8/SAMPLE04.BIN
-	tools/c6809 sample05.asm diskTO8/SAMPLE05.BIN
-	tools/c6809 sample06.asm diskTO8/SAMPLE06.BIN
-	tools/c6809 sample07.asm diskTO8/SAMPLE07.BIN
-	tools/c6809 sample08.asm diskTO8/SAMPLE08.BIN
-	tools/c6809 sample09.asm diskTO8/SAMPLE09.BIN
-	tools/c6809 sample10.asm diskTO8/SAMPLE10.BIN
-	tools/c6809 sample11.asm diskTO8/SAMPLE11.BIN
-	tools/c6809 sample12.asm diskTO8/SAMPLE12.BIN
+	tools/c6809 -bl sample01.asm diskTO8/SAMPLE01.BIN
+	tools/c6809 -bl sample02.asm diskTO8/SAMPLE02.BIN
+	tools/c6809 -bl sample03.asm diskTO8/SAMPLE03.BIN
+	tools/c6809 -bl sample04.asm diskTO8/SAMPLE04.BIN
+	tools/c6809 -bl sample05.asm diskTO8/SAMPLE05.BIN
+	tools/c6809 -bl sample06.asm diskTO8/SAMPLE06.BIN
+	tools/c6809 -bl sample07.asm diskTO8/SAMPLE07.BIN
+	tools/c6809 -bl sample08.asm diskTO8/SAMPLE08.BIN
+	tools/c6809 -bl sample09.asm diskTO8/SAMPLE09.BIN
+	tools/c6809 -bl sample10.asm diskTO8/SAMPLE10.BIN
+	tools/c6809 -bl sample11.asm diskTO8/SAMPLE11.BIN
+	tools/c6809 -bl sample12.asm diskTO8/SAMPLE12.BIN
 
 	cp src/NyanCatTO8.asm NyanCatFull.asm
 	tools/bmp data/my_nyan_arc_1.bmp ARC1 >> NyanCatFull.asm
@@ -113,7 +113,7 @@ nyancatTO8:
 	tools/bmp data/my_nyan_star_5.bmp STAR5 >> NyanCatFull.asm
 	tools/bmp data/my_nyan_star_6.bmp STAR6 >> NyanCatFull.asm
 	tools/bmp data/my_nyan_star_7.bmp STAR7 >> NyanCatFull.asm
-	tools/c6809 NyanCatFull.asm diskTO8/NYANCAT.BIN
+	tools/c6809 -bl NyanCatFull.asm diskTO8/NYANCAT.BIN
 
 	cd diskTO8; ../tools/sapfs -create ../NyanCatTO8.sap
 	cd diskTO8; ../tools/sapfs -add ../NyanCatTO8.sap CATNOSND.BIN
