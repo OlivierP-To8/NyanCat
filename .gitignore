@@ -1,0 +1,17 @@
+*.lst
+*.asm
+*.fd
+*.sap
+*.k7
+*.wav
+disk*/*.BIN
+tools/*.o
+tools/sap/*.o
+tools/c6809
+tools/sapfs
+tools/fdfs
+tools/bmp
+tools/snd6bitTO
+tools/snd6bitMO
+tools/k7mofs
+tools/k52wav

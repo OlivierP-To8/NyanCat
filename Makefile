@@ -225,7 +225,6 @@ nyancatMO6:
 	cd diskMO6; ../tools/fdfs -add ../NyanCatMO6.fd CATNOSND.BIN AUTO.BAT NYANCAT.BAS SAMPLE01.BIN SAMPLE02.BIN SAMPLE03.BIN SAMPLE04.BIN SAMPLE05.BIN NYANCAT.BIN
 
 	cat /dev/null > NyanCatMO6.k7
-	cd diskMO6; ../tools/k7mofs -add ../NyanCatMO6.k7 CATNOSND.BIN
 	cd diskMO6; ../tools/k7mofs -add ../NyanCatMO6.k7 AUTO.BAT
 	cd diskMO6; ../tools/k7mofs -add ../NyanCatMO6.k7 NYANCAT.BAS
 	cd diskMO6; ../tools/k7mofs -add ../NyanCatMO6.k7 SAMPLE01.BIN
@@ -234,5 +233,4 @@ nyancatMO6:
 	cd diskMO6; ../tools/k7mofs -add ../NyanCatMO6.k7 SAMPLE04.BIN
 	cd diskMO6; ../tools/k7mofs -add ../NyanCatMO6.k7 SAMPLE05.BIN
 	cd diskMO6; ../tools/k7mofs -add ../NyanCatMO6.k7 NYANCAT.BIN
-	-tools/k52wav NyanCatMO6.k7
 
