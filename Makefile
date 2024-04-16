@@ -1,54 +1,21 @@
-OBJ_ASM = $(OBJ_DIR)tools/c6809.o
-OBJ_SAPFS = $(OBJ_DIR)tools/sap/libsap.o $(OBJ_DIR)tools/sap/sapfs.o
-OBJ_FDFS = $(OBJ_DIR)tools/fdfs.o
-OBJ_BMP = $(OBJ_DIR)tools/bmp.o
-OBJ_SNDTO = $(OBJ_DIR)tools/snd6bitTO.o
-OBJ_SNDMO = $(OBJ_DIR)tools/snd6bitMO.o
-OBJ_K7MOFS = $(OBJ_DIR)tools/k7mofs.o
-OBJ_K52WAV = $(OBJ_DIR)tools/k52wav.o
-OBJ_WAV2K5 = $(OBJ_DIR)tools/wav2k5.o
+.PHONY: all clean tools nyancatTO8 nyancatMO6
 
-all: c6809 sapfs fdfs bmp sndTO nyancatTO8 sndMO k7mofs k52wav nyancatMO6
-
-c6809: $(OBJ_ASM)
-	gcc -s -o tools/c6809 $(OBJ_ASM)
-
-sapfs: $(OBJ_SAPFS)
-	gcc -s -o tools/sapfs $(OBJ_SAPFS)
-
-fdfs: $(OBJ_FDFS)
-	gcc -s -o tools/fdfs $(OBJ_FDFS)
-
-bmp: $(OBJ_BMP) 
-	gcc -s -o tools/bmp $(OBJ_BMP)
-
-sndTO: $(OBJ_SNDTO) 
-	gcc -s -lm -o tools/snd6bitTO $(OBJ_SNDTO) -lm
-
-sndMO: $(OBJ_SNDMO) 
-	gcc -s -lm -o tools/snd6bitMO $(OBJ_SNDMO) -lm
-
-k7mofs: $(OBJ_K7MOFS)
-	gcc -s -o tools/k7mofs $(OBJ_K7MOFS)
-
-k52wav: $(OBJ_K52WAV)
-	gcc -s -o tools/k52wav $(OBJ_K52WAV)
-
-wav2k5: $(OBJ_WAV2K5)
-	gcc -s -o tools/wav2k5 $(OBJ_WAV2K5)
-
-$(OBJ_DIR)%.o: %.c
-	gcc -c -W -Wall -std=c99 -o $@ $<
+all: nyancatTO8.fd nyancatTO8.sd nyancatTO8.hfe nyancatMO6.fd nyancatMO6.sd nyancatMO6.k7
 
 clean:
-	-rm tools/*.o
-	-rm tools/sap/*.o
+	-rm *.lst *.asm
 	-rm diskTO8/*.BIN
 	-rm diskMO6/*.BIN
-	-rm *.lst *.asm *.fd *.sap *.k7 *.wav
-	-rm tools/c6809 tools/sapfs tools/fdfs tools/bmp tools/snd6bitTO tools/snd6bitMO tools/k7mofs tools/k52wav
+	-rm dist/NyanCat{TO8,MO6}.{fd,sd}
+	-rm dist/NyanCatTO8.hfe
+	-rm dist/NyanCatMO6.k7
+	make -C tools $@
 
-nyancatTO8:
+tools:
+	make -C $@
+
+
+nyancatTO8: tools
 	cp src/NyanCatTO8NoSnd.asm NyanCatFull.asm
 	tools/bmp data/my_nyan_arc_1.bmp ARC1 >> NyanCatFull.asm
 	tools/bmp data/my_nyan_arc_2.bmp ARC2 >> NyanCatFull.asm
@@ -125,27 +92,17 @@ nyancatTO8:
 
 	tools/c6809 -bl src/NyanCatTO8Loader.asm diskTO8/LOADER.BIN
 
-	cd diskTO8; ../tools/sapfs -create ../NyanCatTO8.sap
-	cd diskTO8; ../tools/sapfs -add ../NyanCatTO8.sap CATNOSND.BIN
-	cd diskTO8; ../tools/sapfs -add ../NyanCatTO8.sap AUTO.BAT
-	cd diskTO8; ../tools/sapfs -add ../NyanCatTO8.sap NYANCAT.BAS
-	cd diskTO8; ../tools/sapfs -add ../NyanCatTO8.sap NYANCAT.BIN
-	cd diskTO8; ../tools/sapfs -add ../NyanCatTO8.sap SAMPLE01.BIN
-	cd diskTO8; ../tools/sapfs -add ../NyanCatTO8.sap SAMPLE02.BIN
-	cd diskTO8; ../tools/sapfs -add ../NyanCatTO8.sap SAMPLE03.BIN
-	cd diskTO8; ../tools/sapfs -add ../NyanCatTO8.sap SAMPLE04.BIN
-	cd diskTO8; ../tools/sapfs -add ../NyanCatTO8.sap SAMPLE05.BIN
-	cd diskTO8; ../tools/sapfs -add ../NyanCatTO8.sap SAMPLE06.BIN
-	cd diskTO8; ../tools/sapfs -add ../NyanCatTO8.sap SAMPLE07.BIN
-	cd diskTO8; ../tools/sapfs -add ../NyanCatTO8.sap SAMPLE08.BIN
-	cd diskTO8; ../tools/sapfs -add ../NyanCatTO8.sap SAMPLE09.BIN
-	cd diskTO8; ../tools/sapfs -add ../NyanCatTO8.sap SAMPLE10.BIN
-	cd diskTO8; ../tools/sapfs -add ../NyanCatTO8.sap SAMPLE11.BIN
-	cd diskTO8; ../tools/sapfs -add ../NyanCatTO8.sap SAMPLE12.BIN
+nyancatTO8.fd: nyancatTO8
+	cd diskTO8; ../tools/fdfs -add ../dist/NyanCatTO8.fd AUTO.BAT LOADER.BIN SAMPLE01.BIN SAMPLE02.BIN SAMPLE03.BIN SAMPLE04.BIN SAMPLE05.BIN SAMPLE06.BIN SAMPLE07.BIN SAMPLE08.BIN SAMPLE09.BIN SAMPLE10.BIN SAMPLE11.BIN SAMPLE12.BIN NYANCAT.BIN NYANCAT.BAS CATNOSND.BIN
 
-	cd diskTO8; ../tools/fdfs -add ../NyanCatTO8.fd AUTO.BAT LOADER.BIN SAMPLE01.BIN SAMPLE02.BIN SAMPLE03.BIN SAMPLE04.BIN SAMPLE05.BIN SAMPLE06.BIN SAMPLE07.BIN SAMPLE08.BIN SAMPLE09.BIN SAMPLE10.BIN SAMPLE11.BIN SAMPLE12.BIN NYANCAT.BIN NYANCAT.BAS CATNOSND.BIN
+nyancatTO8.sd: dist/NyanCatTO8.fd
+	tools/fdtosd -conv dist/NyanCatTO8.fd dist/NyanCatTO8.sd
 
-nyancatMO6:
+nyancatTO8.hfe: dist/NyanCatTO8.fd
+	tools/fdtohfe -conv dist/NyanCatTO8.fd dist/NyanCatTO8.hfe 2
+
+
+nyancatMO6: tools
 	cp src/NyanCatMO6NoSnd.asm NyanCatFull.asm
 	tools/bmp data/my_nyan_arc_1.bmp ARC1 >> NyanCatFull.asm
 	tools/bmp data/my_nyan_arc_2.bmp ARC2 >> NyanCatFull.asm
@@ -213,26 +170,19 @@ nyancatMO6:
 	tools/bmp data/my_nyan_star_7.bmp STAR7 >> NyanCatFull.asm
 	tools/c6809 NyanCatFull.asm diskMO6/NYANCAT.BIN
 
-	cd diskMO6; ../tools/sapfs -create ../NyanCatMO6.sap
-	cd diskMO6; ../tools/sapfs -add ../NyanCatMO6.sap CATNOSND.BIN
-	cd diskMO6; ../tools/sapfs -add ../NyanCatMO6.sap AUTO.BAT
-	cd diskMO6; ../tools/sapfs -add ../NyanCatMO6.sap NYANCAT.BAS
-	cd diskMO6; ../tools/sapfs -add ../NyanCatMO6.sap SAMPLE01.BIN
-	cd diskMO6; ../tools/sapfs -add ../NyanCatMO6.sap SAMPLE02.BIN
-	cd diskMO6; ../tools/sapfs -add ../NyanCatMO6.sap SAMPLE03.BIN
-	cd diskMO6; ../tools/sapfs -add ../NyanCatMO6.sap SAMPLE04.BIN
-	cd diskMO6; ../tools/sapfs -add ../NyanCatMO6.sap SAMPLE05.BIN
-	cd diskMO6; ../tools/sapfs -add ../NyanCatMO6.sap NYANCAT.BIN
+nyancatMO6.fd: nyancatMO6
+	cd diskMO6; ../tools/fdfs -add ../dist/NyanCatMO6.fd AUTO.BAT NYANCAT.BAS SAMPLE01.BIN SAMPLE02.BIN SAMPLE03.BIN SAMPLE04.BIN SAMPLE05.BIN NYANCAT.BIN CATNOSND.BIN
 
-	cd diskMO6; ../tools/fdfs -add ../NyanCatMO6.fd CATNOSND.BIN AUTO.BAT NYANCAT.BAS SAMPLE01.BIN SAMPLE02.BIN SAMPLE03.BIN SAMPLE04.BIN SAMPLE05.BIN NYANCAT.BIN
+nyancatMO6.sd: dist/NyanCatMO6.fd
+	tools/fdtosd -conv dist/NyanCatMO6.fd dist/NyanCatMO6.sd
 
-	cat /dev/null > NyanCatMO6.k7
-	cd diskMO6; ../tools/k7mofs -add ../NyanCatMO6.k7 AUTO.BAT
-	cd diskMO6; ../tools/k7mofs -add ../NyanCatMO6.k7 NYANCAT.BAS
-	cd diskMO6; ../tools/k7mofs -add ../NyanCatMO6.k7 SAMPLE01.BIN
-	cd diskMO6; ../tools/k7mofs -add ../NyanCatMO6.k7 SAMPLE02.BIN
-	cd diskMO6; ../tools/k7mofs -add ../NyanCatMO6.k7 SAMPLE03.BIN
-	cd diskMO6; ../tools/k7mofs -add ../NyanCatMO6.k7 SAMPLE04.BIN
-	cd diskMO6; ../tools/k7mofs -add ../NyanCatMO6.k7 SAMPLE05.BIN
-	cd diskMO6; ../tools/k7mofs -add ../NyanCatMO6.k7 NYANCAT.BIN
-
+nyancatMO6.k7: nyancatMO6
+	cat /dev/null > dist/NyanCatMO6.k7
+	cd diskMO6; ../tools/k7mofs -add ../dist/NyanCatMO6.k7 AUTO.BAT
+	cd diskMO6; ../tools/k7mofs -add ../dist/NyanCatMO6.k7 NYANCAT.BAS
+	cd diskMO6; ../tools/k7mofs -add ../dist/NyanCatMO6.k7 SAMPLE01.BIN
+	cd diskMO6; ../tools/k7mofs -add ../dist/NyanCatMO6.k7 SAMPLE02.BIN
+	cd diskMO6; ../tools/k7mofs -add ../dist/NyanCatMO6.k7 SAMPLE03.BIN
+	cd diskMO6; ../tools/k7mofs -add ../dist/NyanCatMO6.k7 SAMPLE04.BIN
+	cd diskMO6; ../tools/k7mofs -add ../dist/NyanCatMO6.k7 SAMPLE05.BIN
+	cd diskMO6; ../tools/k7mofs -add ../dist/NyanCatMO6.k7 NYANCAT.BIN
