@@ -1,9 +1,9 @@
 *.lst
-*.asm
-*.fd
-*.sap
-*.k7
-*.wav
+/*.asm
+/*.fd
+/*.sap
+/*.k7
+/*.wav
 disk*/*.BIN
 tools/*.o
 tools/sap/*.o

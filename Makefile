@@ -123,6 +123,8 @@ nyancatTO8:
 	tools/bmp data/my_nyan_star_7.bmp STAR7 >> NyanCatFull.asm
 	tools/c6809 -bl NyanCatFull.asm diskTO8/NYANCAT.BIN
 
+	tools/c6809 -bl src/NyanCatTO8Loader.asm diskTO8/LOADER.BIN
+
 	cd diskTO8; ../tools/sapfs -create ../NyanCatTO8.sap
 	cd diskTO8; ../tools/sapfs -add ../NyanCatTO8.sap CATNOSND.BIN
 	cd diskTO8; ../tools/sapfs -add ../NyanCatTO8.sap AUTO.BAT
@@ -141,7 +143,7 @@ nyancatTO8:
 	cd diskTO8; ../tools/sapfs -add ../NyanCatTO8.sap SAMPLE11.BIN
 	cd diskTO8; ../tools/sapfs -add ../NyanCatTO8.sap SAMPLE12.BIN
 
-	cd diskTO8; ../tools/fdfs -add ../NyanCatTO8.fd CATNOSND.BIN AUTO.BAT NYANCAT.BAS NYANCAT.BIN SAMPLE01.BIN SAMPLE02.BIN SAMPLE03.BIN SAMPLE04.BIN SAMPLE05.BIN SAMPLE06.BIN SAMPLE07.BIN SAMPLE08.BIN SAMPLE09.BIN SAMPLE10.BIN SAMPLE11.BIN SAMPLE12.BIN
+	cd diskTO8; ../tools/fdfs -add ../NyanCatTO8.fd AUTO.BAT LOADER.BIN SAMPLE01.BIN SAMPLE02.BIN SAMPLE03.BIN SAMPLE04.BIN SAMPLE05.BIN SAMPLE06.BIN SAMPLE07.BIN SAMPLE08.BIN SAMPLE09.BIN SAMPLE10.BIN SAMPLE11.BIN SAMPLE12.BIN NYANCAT.BIN NYANCAT.BAS CATNOSND.BIN
 
 nyancatMO6:
 	cp src/NyanCatMO6NoSnd.asm NyanCatFull.asm
